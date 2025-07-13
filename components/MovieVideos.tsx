@@ -1,5 +1,6 @@
 // MovieVideos.tsx
 import { API_URL } from "../app/(home)/page";
+import styles from "../app/styles/movie-videos.module.css";
 
 async function getVideos(id: string) {
   // throw new Error("Error...");
@@ -10,6 +11,18 @@ async function getVideos(id: string) {
 }
 
 export default async function MovieVideos({ id }: { id: string }) {
-  const movie = await getVideos(id);
-  return <h6>{JSON.stringify(movie)}</h6>;
+  const videos = await getVideos(id);
+  return (
+    <div className={styles.container}>
+      {videos?.slice(0, 10).map((video) => (
+        <iframe
+          key={video.id}
+          src={`https://youtube.com/embed/${video.key}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; "
+          allowFullScreen
+          title={video.name}
+        />
+      ))}
+    </div>
+  );
 }
